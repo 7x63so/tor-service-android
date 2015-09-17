@@ -42,6 +42,22 @@ case INTERFACE_TRANSACTION:
 reply.writeString(DESCRIPTOR);
 return true;
 }
+case TRANSACTION_signal:
+{
+data.enforceInterface(DESCRIPTOR);
+java.lang.String _arg0;
+_arg0 = data.readString();
+this.signal(_arg0);
+reply.writeNoException();
+return true;
+}
+case TRANSACTION_newIdentity:
+{
+data.enforceInterface(DESCRIPTOR);
+this.newIdentity();
+reply.writeNoException();
+return true;
+}
 case TRANSACTION_setConfig:
 {
 data.enforceInterface(DESCRIPTOR);
@@ -53,6 +69,13 @@ else {
 _arg0 = null;
 }
 this.setConfig(_arg0);
+reply.writeNoException();
+return true;
+}
+case TRANSACTION_stopTor:
+{
+data.enforceInterface(DESCRIPTOR);
+this.stopTor();
 reply.writeNoException();
 return true;
 }
@@ -81,6 +104,35 @@ public java.lang.String getInterfaceDescriptor()
 {
 return DESCRIPTOR;
 }
+@Override public void signal(java.lang.String command) throws android.os.RemoteException
+{
+android.os.Parcel _data = android.os.Parcel.obtain();
+android.os.Parcel _reply = android.os.Parcel.obtain();
+try {
+_data.writeInterfaceToken(DESCRIPTOR);
+_data.writeString(command);
+mRemote.transact(Stub.TRANSACTION_signal, _data, _reply, 0);
+_reply.readException();
+}
+finally {
+_reply.recycle();
+_data.recycle();
+}
+}
+@Override public void newIdentity() throws android.os.RemoteException
+{
+android.os.Parcel _data = android.os.Parcel.obtain();
+android.os.Parcel _reply = android.os.Parcel.obtain();
+try {
+_data.writeInterfaceToken(DESCRIPTOR);
+mRemote.transact(Stub.TRANSACTION_newIdentity, _data, _reply, 0);
+_reply.readException();
+}
+finally {
+_reply.recycle();
+_data.recycle();
+}
+}
 @Override public void setConfig(xyz.gwh.tor.config.Torrc config) throws android.os.RemoteException
 {
 android.os.Parcel _data = android.os.Parcel.obtain();
@@ -95,6 +147,20 @@ else {
 _data.writeInt(0);
 }
 mRemote.transact(Stub.TRANSACTION_setConfig, _data, _reply, 0);
+_reply.readException();
+}
+finally {
+_reply.recycle();
+_data.recycle();
+}
+}
+@Override public void stopTor() throws android.os.RemoteException
+{
+android.os.Parcel _data = android.os.Parcel.obtain();
+android.os.Parcel _reply = android.os.Parcel.obtain();
+try {
+_data.writeInterfaceToken(DESCRIPTOR);
+mRemote.transact(Stub.TRANSACTION_stopTor, _data, _reply, 0);
 _reply.readException();
 }
 finally {
@@ -117,9 +183,15 @@ _data.recycle();
 }
 }
 }
-static final int TRANSACTION_setConfig = (android.os.IBinder.FIRST_CALL_TRANSACTION + 0);
-static final int TRANSACTION_exit = (android.os.IBinder.FIRST_CALL_TRANSACTION + 1);
+static final int TRANSACTION_signal = (android.os.IBinder.FIRST_CALL_TRANSACTION + 0);
+static final int TRANSACTION_newIdentity = (android.os.IBinder.FIRST_CALL_TRANSACTION + 1);
+static final int TRANSACTION_setConfig = (android.os.IBinder.FIRST_CALL_TRANSACTION + 2);
+static final int TRANSACTION_stopTor = (android.os.IBinder.FIRST_CALL_TRANSACTION + 3);
+static final int TRANSACTION_exit = (android.os.IBinder.FIRST_CALL_TRANSACTION + 4);
 }
+public void signal(java.lang.String command) throws android.os.RemoteException;
+public void newIdentity() throws android.os.RemoteException;
 public void setConfig(xyz.gwh.tor.config.Torrc config) throws android.os.RemoteException;
+public void stopTor() throws android.os.RemoteException;
 public void exit() throws android.os.RemoteException;
 }

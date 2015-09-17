@@ -23,7 +23,9 @@ public class MainActivity extends Activity {
 
     private TextView logText;
     private Button startButton;
-    private Button doSomethingButton;
+    private Button newIdentityButton;
+    private Button setConfigButton;
+    private Button stopTorButton;
     private Button stopButton;
 
     private ITorService service;
@@ -44,7 +46,9 @@ public class MainActivity extends Activity {
     private void bindViews() {
         logText = (TextView) findViewById(R.id.log_text);
         startButton = (Button) findViewById(R.id.start_service_btn);
-        doSomethingButton = (Button) findViewById(R.id.do_something_btn);
+        newIdentityButton = (Button) findViewById(R.id.new_identity_btn);
+        setConfigButton = (Button) findViewById(R.id.set_config_btn);
+        stopTorButton = (Button) findViewById(R.id.stop_tor_btn);
         stopButton = (Button) findViewById(R.id.stop_service_btn);
     }
 
@@ -57,10 +61,24 @@ public class MainActivity extends Activity {
             }
         });
 
-        doSomethingButton.setOnClickListener(new View.OnClickListener() {
+        newIdentityButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                doSomething();
+                newIdentity();
+            }
+        });
+
+        setConfigButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setConfig();
+            }
+        });
+
+        stopTorButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                stopTor();
             }
         });
 
@@ -81,9 +99,9 @@ public class MainActivity extends Activity {
         connection = new ServiceConnection() {
             @Override
             public void onServiceConnected(ComponentName className, IBinder service) {
-                logText.append("Service binded!\n");
+                logText.append("Service bound!\n");
                 MainActivity.this.service = ITorService.Stub.asInterface(service);
-                doSomething();
+                setConfig();
             }
 
             @Override
@@ -103,12 +121,11 @@ public class MainActivity extends Activity {
 
     private void stopService() {
         logText.append("Stopping service…\n");
-
         try {
             service.exit();
             logText.append("Service stopped");
         } catch (RemoteException e) {
-            Toast.makeText(this, "stopService() failed!", Toast.LENGTH_SHORT).show();
+            makeToast("stopService() failed!");
         }
     }
 
@@ -117,13 +134,31 @@ public class MainActivity extends Activity {
         bindService(serviceIntent, connection, BIND_AUTO_CREATE);
     }
 
-    private void doSomething() {
-        Torrc config = Torrc.DEFAULT_BUILDER.build();
-
+    private void newIdentity() {
         try {
-            service.setConfig(config);
+            service.newIdentity();
         } catch (RemoteException e) {
-            Toast.makeText(this, "setConfig() failed!", Toast.LENGTH_SHORT).show();
+            makeToast("newIdentity() failed!");
         }
+    }
+
+    private void stopTor() {
+        try {
+            service.stopTor();
+        } catch (RemoteException e) {
+            makeToast("stopTor() failed!");
+        }
+    }
+
+    private void setConfig() {
+        try {
+            service.setConfig(Torrc.DEFAULT_BUILDER.build());
+        } catch (RemoteException e) {
+            makeToast("setConfig() failed!");
+        }
+    }
+
+    private void makeToast(String text) {
+        Toast.makeText(this, text, Toast.LENGTH_SHORT).show();
     }
 }

@@ -32,9 +32,24 @@ public class TorService extends Service {
 
     private final ITorService.Stub mBinder = new ITorService.Stub() {
         @Override
+        public void signal(String command) throws RemoteException {
+            log("Received " + command + " command");
+        }
+
+        @Override
+        public void newIdentity() throws RemoteException {
+            log("Received newIdentity command.");
+        }
+
+        @Override
         public void setConfig(Torrc config) throws RemoteException {
             log("Received setConfig command.");
             log(config.toString());
+        }
+
+        @Override
+        public void stopTor() throws RemoteException {
+            log("Received stopTor command.");
         }
 
         @Override

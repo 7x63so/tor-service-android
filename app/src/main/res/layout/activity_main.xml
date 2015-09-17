@@ -9,21 +9,35 @@
     <Button
         android:id="@+id/start_service_btn"
         android:layout_width="match_parent"
-        android:text="Start"
+        android:text="Start service"
         android:layout_height="wrap_content"
         android:textSize="16sp" />
 
     <Button
-        android:id="@+id/do_something_btn"
+        android:id="@+id/new_identity_btn"
         android:layout_width="match_parent"
-        android:text="Perform action"
+        android:text="New identity"
+        android:layout_height="wrap_content"
+        android:textSize="16sp" />
+
+    <Button
+        android:id="@+id/set_config_btn"
+        android:layout_width="match_parent"
+        android:text="Set config"
+        android:layout_height="wrap_content"
+        android:textSize="16sp" />
+
+    <Button
+        android:id="@+id/stop_tor_btn"
+        android:layout_width="match_parent"
+        android:text="Stop TOR"
         android:layout_height="wrap_content"
         android:textSize="16sp" />
 
     <Button
         android:id="@+id/stop_service_btn"
         android:layout_width="match_parent"
-        android:text="Stop"
+        android:text="Stop service"
         android:layout_height="wrap_content"
         android:textSize="16sp" />
 
