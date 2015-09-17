@@ -1,0 +1,38 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="16dp"
+    android:orientation="vertical"
+    tools:context=".MainActivity">
+
+    <Button
+        android:id="@+id/start_service_btn"
+        android:layout_width="match_parent"
+        android:text="Start"
+        android:layout_height="wrap_content"
+        android:textSize="16sp" />
+
+    <Button
+        android:id="@+id/do_something_btn"
+        android:layout_width="match_parent"
+        android:text="Perform action"
+        android:layout_height="wrap_content"
+        android:textSize="16sp" />
+
+    <Button
+        android:id="@+id/stop_service_btn"
+        android:layout_width="match_parent"
+        android:text="Stop"
+        android:layout_height="wrap_content"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/log_text"
+        android:layout_width="match_parent"
+        android:layout_marginTop="16dp"
+        android:layout_height="wrap_content"
+        tools:text="Log" />
+
+</LinearLayout>
+<!-- From: file:/Users/k/dev-ws/real-service/tor-service-android/app/src/main/res/layout/activity_main.xml -->

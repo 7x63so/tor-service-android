@@ -1,0 +1,6 @@
+/Users/k/dev-ws/real-service/tor-service-android/app/build/intermediates/classes/debug
+/Users/k/dev-ws/real-service/tor-service-android/app/build/intermediates/pre-dexed/debug/support-annotations-21.0.3-0152b036f96cb40c8a373be6183eb31b16dfd520.jar
+/Users/k/dev-ws/real-service/tor-service-android/app/build/intermediates/pre-dexed/debug/jtorctl-0.2-0647226371ef4eaa89597a4e549154a3f8e61a8d.jar
+/Users/k/dev-ws/real-service/tor-service-android/app/build/intermediates/pre-dexed/debug/internal_impl-21.0.3-a5a437d46743fafa068c15af833f414150ac0f00.jar
+/Users/k/dev-ws/real-service/tor-service-android/app/build/intermediates/pre-dexed/debug/classes-0423152516cc7ee91f9e9ddce74c29c575bb5414.jar
+/Users/k/dev-ws/real-service/tor-service-android/app/build/intermediates/pre-dexed/debug/classes-f3b99bc4db8989d5eb9a297ae6d6ae3ec9791058.jar

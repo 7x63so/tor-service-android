@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">TorServiceApp</string>
+    <string name="service_name">TorService</string>
+    <string name="title_activity_main">MainActivity</string>
+
+    <string name="start_service">Start service</string>
+    <string name="stop_service">Stop service</string>
+    <string name="action_settings">Settings</string>
+</resources>
