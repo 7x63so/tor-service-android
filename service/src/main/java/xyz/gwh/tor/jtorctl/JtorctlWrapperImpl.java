@@ -7,6 +7,8 @@ import net.freehaven.tor.control.TorControlConnection;
 
 import java.io.IOException;
 import java.net.Socket;
+import java.util.Arrays;
+import java.util.List;
 
 import xyz.gwh.tor.config.Torrc;
 
@@ -20,11 +22,14 @@ public class JtorctlWrapperImpl implements JtorctlWrapper {
     private static final String SIGNAL_RELOAD = "RELOAD";
     private static final String SIGNAL_HALT = "HALT";
 
+    private static final List<String> EVENTS = Arrays.asList("ORCONN", "CIRC", "NOTICE", "WARN", "ERR", "BW");
+
     private static final String ERR_SIGNAL_FORMAT = "The command \"%s\" failed.";
-    private static final String ERR_CONNECTION = "Could not establish a connection tor Tor.";
+    private static final String ERR_CONNECTION = "Could not establish a connection to Tor.";
     private static final String ERR_HALT = "There was a problem shutting Tor down - try again?";
-    private static final String ERR_NEWNYM = "Could not switch to a new identity!";
-    private static final String ERR_RELOAD = "There was a problem setting the configuration: ";
+    private static final String ERR_NEWNYM = "Could not switch to a new identity.";
+    private static final String ERR_RELOAD = "Could not set the configuration.";
+    private static final String ERR_EVENTS = "Could not set the EventHandler.";
 
     private TorControlConnection connection;
 
@@ -75,7 +80,12 @@ public class JtorctlWrapperImpl implements JtorctlWrapper {
     }
 
     @Override
-    public void setEventHandler(@NonNull EventHandler eventHandler) {
-        connection.setEventHandler(eventHandler);
+    public void setEventHandler(@NonNull EventHandler eventHandler) throws JtorctlException {
+        try {
+            connection.setEventHandler(eventHandler);
+            connection.setEvents(EVENTS);
+        } catch (IOException e) {
+            throw new JtorctlException(ERR_EVENTS);
+        }
     }
 }

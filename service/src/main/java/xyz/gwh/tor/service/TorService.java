@@ -4,57 +4,105 @@ import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
 import android.os.RemoteException;
-import android.util.Log;
+
+import java.io.IOException;
+import java.net.Socket;
 
 import xyz.gwh.tor.ITorService;
 import xyz.gwh.tor.config.Torrc;
+import xyz.gwh.tor.jtorctl.JtorctlException;
+import xyz.gwh.tor.jtorctl.JtorctlWrapper;
+import xyz.gwh.tor.jtorctl.JtorctlWrapperImpl;
+import xyz.gwh.tor.util.Logger;
 
 /**
- * @author gwh
+ * A simple service that routes signals to jtorctl.
  */
 public class TorService extends Service {
 
-    private void log(String message) {
-        Log.v("MainService", message);
-    }
+    private JtorctlWrapper jtorctlWrapper;
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        log("Received start command.");
+        Logger.i("Starting a TorControlConnection...");
+
+        try {
+            Socket torSocket = new Socket("", -1);
+            torSocket.setSoTimeout(0);
+            jtorctlWrapper = new JtorctlWrapperImpl(torSocket);
+        } catch (JtorctlException | IOException e) {
+            Logger.e("Unable to create a TorControlConnection: " + e.getMessage());
+        }
+
         return START_STICKY;
     }
 
     @Override
     public IBinder onBind(Intent intent) {
-        log("Received binding.");
-        return mBinder;
+        Logger.i("Binding successful.");
+        return binder;
     }
 
-    private final ITorService.Stub mBinder = new ITorService.Stub() {
+    private boolean isConnected() {
+        return jtorctlWrapper != null;
+    }
+
+    private final ITorService.Stub binder = new ITorService.Stub() {
         @Override
-        public void signal(String command) throws RemoteException {
-            log("Received " + command + " command");
+        public void signal(String signal) throws RemoteException {
+            Logger.i("Calling jtorctl.signal()");
+
+            if (isConnected()) {
+                try {
+                    jtorctlWrapper.signal(signal);
+                } catch (JtorctlException e) {
+                    Logger.e(e.getMessage());
+                }
+            }
         }
 
         @Override
         public void newIdentity() throws RemoteException {
-            log("Received newIdentity command.");
+            Logger.i("Calling jtorctl.newIdentity()");
+
+            if (isConnected()) {
+                try {
+                    jtorctlWrapper.newIdentity();
+                } catch (JtorctlException e) {
+                    Logger.e(e.getMessage());
+                }
+            }
         }
 
         @Override
         public void setConfig(Torrc config) throws RemoteException {
-            log("Received setConfig command.");
-            log(config.toString());
+            Logger.i("Calling jtorctl.setConfig()");
+
+            if (isConnected()) {
+                try {
+                    jtorctlWrapper.setConfig(config);
+                } catch (JtorctlException e) {
+                    Logger.e(e.getMessage());
+                }
+            }
         }
 
         @Override
         public void stopTor() throws RemoteException {
-            log("Received stopTor command.");
+            Logger.i("Calling jtorctl.stopTor()");
+
+            if (isConnected()) {
+                try {
+                    jtorctlWrapper.stopTor();
+                } catch (JtorctlException e) {
+                    Logger.e(e.getMessage());
+                }
+            }
         }
 
         @Override
         public void exit() throws RemoteException {
-            log("Received exit command.");
+            Logger.i("Attempting to stop TorService.");
             stopSelf();
         }
     };

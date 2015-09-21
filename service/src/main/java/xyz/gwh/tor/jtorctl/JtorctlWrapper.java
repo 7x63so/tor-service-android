@@ -41,5 +41,5 @@ public interface JtorctlWrapper {
     /**
      * Sets an EventHandler for Tor events.
      */
-    void setEventHandler(@NonNull EventHandler eventHandler);
+    void setEventHandler(@NonNull EventHandler eventHandler) throws JtorctlException;
 }
