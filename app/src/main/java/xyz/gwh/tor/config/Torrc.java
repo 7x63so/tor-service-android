@@ -98,12 +98,6 @@ public final class Torrc implements Parcelable {
             // default empty Builder
         }
 
-//        public Builder(List<ConfigEntry> configEntries) {
-//            for (ConfigEntry entry : configEntries) {
-//                addEntry(entry.key, entry.value);
-//            }
-//        }
-
         public Builder setRunAsDaemon(String runAsDaemon) {
             addEntry(KEY_RUN_AS_DAEMON, runAsDaemon);
             return this;

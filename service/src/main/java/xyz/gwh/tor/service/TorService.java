@@ -27,7 +27,7 @@ public class TorService extends Service {
         Logger.i("Starting a TorControlConnection...");
 
         try {
-            Socket torSocket = new Socket("", -1);
+            Socket torSocket = new Socket("192.168.0.1", 80);
             torSocket.setSoTimeout(0);
             jtorctlWrapper = new JtorctlWrapperImpl(torSocket);
         } catch (JtorctlException | IOException e) {

@@ -123,7 +123,7 @@ public class MainActivity extends Activity {
         logText.append("Stopping service…\n");
         try {
             service.exit();
-            logText.append("Service stopped");
+            logText.append("Service stopped\n");
         } catch (RemoteException e) {
             makeToast("stopService() failed!");
         }
